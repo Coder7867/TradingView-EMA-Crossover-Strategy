@@ -1,0 +1,16 @@
+//@version=5
+strategy("EMA Crossover Strategy", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=10)
+
+fastEMA = ta.ema(close, 10)
+slowEMA = ta.ema(close, 30)
+
+plot(fastEMA, color=color.orange, title="10 EMA")
+plot(slowEMA, color=color.blue, title="30 EMA")
+
+longCondition = ta.crossover(fastEMA, slowEMA)
+if (longCondition)
+    strategy.entry("Long", strategy.long)
+
+shortCondition = ta.crossunder(fastEMA, slowEMA)
+if (shortCondition)
+    strategy.close("Long")
